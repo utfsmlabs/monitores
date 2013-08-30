@@ -18,9 +18,10 @@ along with Monitores.  If not, see <http://www.gnu.org/licenses/>.
 #}
 
 {% macro render_field(field) %}
-<div class="control-group">
-    <label class="control-label" for="{{ field.id }}">{{ field.label }}</label>
-    <div class="controls">{{ field(**kwargs)|safe }}
+{% set width = kwargs.pop('width', 12) %}
+<div class="form-group">
+  <label class="col-md-2 control-label" for="{{ field.id }}">{{ field.label.text }}</label>
+  <div class="col-md-{{width-2}}">{{ field(class_='form-control', **kwargs)|safe }}
         {% if field.errors %}
         <div class="errors">
             {% for error in field.errors %}
@@ -32,8 +33,10 @@ along with Monitores.  If not, see <http://www.gnu.org/licenses/>.
 </div>
 {% endmacro %}
 
-{% macro submit_button(text='Submit', extra_classes='btn-primary') %}
-<div class="form-actions">
+{% macro submit_button(text='Submit', extra_classes='btn-primary', width=12) %}
+<div class="form-group">
+  <div class="col-md-offset-2 col-md-{{width-2}}">
     <button type="submit" class="btn {{extra_classes}}">{{text}}</button>
+  </div>
 </div>
 {% endmacro %}

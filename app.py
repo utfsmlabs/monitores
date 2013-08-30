@@ -22,12 +22,11 @@ from functools import wraps
 
 from flask import (Flask, render_template, request, flash, redirect, url_for, 
         session)
-
-import ldapUsers
-import forms
+from flask.ext.sqlalchemy import SQLAlchemy
 
 class default_config:
     DEBUG = True
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///asdf.db'
     LDAP_URI = 'ldap://localhost:3890'
     LDAP_SEARCH_ATTR = 'uid'
     LDAP_BASEDN = 'ou=inf,o=utfsm,c=cl'
@@ -38,6 +37,14 @@ app = Flask(__name__)
 app.config.from_object(default_config)
 app.config.from_envvar('MONITORES_SETTINGS', silent=True)
 app.config.from_pyfile('config.py', silent=True)
+
+db = SQLAlchemy(app)
+
+import ldapUsers, forms, models
+
+#####################################################################
+# Login stuff (probably should have replaced it with flask-login)
+#####################################################################
 
 ldap = ldapUsers.ldapConnection(app)
 
@@ -82,10 +89,16 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('index'))
 
+#####################################################################
+
 @app.route('/')
 @requires_auth
 def index():
     return render_template('index.html')
+
+#####################################################################
+# Startup
+#####################################################################
 
 
 def config_string():

@@ -14,6 +14,5 @@ LDAP_SEARCH_ATTR = 'uid'
 #Random key
 SECRET_KEY = 'secret key'
 
-#Users from LDAP that can log into the system.
-ADMINS = set([])
+LOG_FILE = 'monitores.log'
 

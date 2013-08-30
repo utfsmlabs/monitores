@@ -22,9 +22,9 @@ postgres y _pysqlite_ para sqlite), y flup para fastcgi.
 Configuración
 -------------
 
-El programa espera un archivo llamado config.py en el working directory, o
-indicado por la variable de entorno _MONITORES_SETTINGS_. Se incluye un
-ejemplo en la carpeta examples :sweat:.
+El programa espera un archivo llamado config.py en el directorio _instance_, o
+indicado por la variable de entorno _MONITORES_SETTINGS_. Se incluye un ejemplo
+en la carpeta examples :sweat:.
 
 Creando tablas
 --------------

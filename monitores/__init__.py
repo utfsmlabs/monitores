@@ -29,7 +29,7 @@ class default_config:
     SECRET_KEY = 'development secret key'
     LOG_FILE = 'monitores.log'
 
-app = Flask(__name__)
+app = Flask(__name__.split('.')[0], instance_relative_config=True)
 app.config.from_object(default_config)
 app.config.from_envvar('MONITORES_SETTINGS', silent=True)
 app.config.from_pyfile('config.py', silent=True)

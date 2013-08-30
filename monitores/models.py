@@ -22,7 +22,7 @@
 # will be always be retrieved from LDAP. That's why all references to user, 
 # in particular in lended_to fields shall be the dn of the user
 
-from app import db
+from monitores import db
 
 class Monitor(db.Model):
   id = db.Column(db.Integer, primary_key = True)

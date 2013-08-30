@@ -45,6 +45,8 @@ class ldapConnection:
 
     def search_and_auth(self, attr, passwd):
         dn = self.getDN(attr)
+        if not dn: #User doesn't exist
+          return False
         
         conn = ldap.initialize(self.uri)
         try:

@@ -19,5 +19,43 @@ along with Monitores.  If not, see <http://www.gnu.org/licenses/>.
 
 {% extends "layout.html" %}
 {% block body %}
-<a href="{{ url_for('logout') }}">Logout</a>
+<header class="page-header">
+  <a href="{{ url_for('logout') }}" class="btn btn-danger pull-right">
+    <span class="glyphicon glyphicon-log-out"></span> Salir
+  </a>
+  <h1>Reservar</h1>
+</header>
+
+<div class="table-responsive">
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>#</th><th>Marca</th><th>Serie</th><th>&nbsp;</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for monitor in monitores %}
+    <tr>
+      <td>{{ monitor.id }}</td>
+      <td>{{ monitor.brand }}</td>
+      <td>{{ monitor.serial }}</td>
+      <td>
+        {% if monitor.reserved_by %}
+          {% if monitor.reserved_by == username %}
+          <span class="label label-success">
+            <span class="glyphicon glyphicon-check"></span> Reservado por mí</span>
+          {% else %}
+            <span class="label label-danger">
+              <span class="glyphicon glyphicon-ban-circle"></span> No disponible</span>
+          {% endif %}
+        {% else %}
+          <a class="btn btn-primary btn-xs" href="#">
+            <span class="glyphicon glyphicon-shopping-cart"></span> Reservar</a>
+        {% endif %}
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
 {% endblock %}

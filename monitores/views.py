@@ -56,5 +56,6 @@ def logout():
 @app.route('/')
 @requires_auth
 def index():
-    return render_template('index.html')
+    monitores = Monitor.query.order_by('id')
+    return render_template('index.html', monitores=monitores)
 

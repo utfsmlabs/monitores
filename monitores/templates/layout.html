@@ -34,6 +34,13 @@ along with Monitores.  If not, see <http://www.gnu.org/licenses/>.
     </head>
     <body>
         <div class="container">
+            <header class="page-header">
+              <a href="{{ url_for('logout') }}" class="btn btn-danger pull-right">
+                <span class="glyphicon glyphicon-log-out"></span> Salir
+              </a>
+              <h1>Reservar</h1>
+            </header>
+
             {# flashing support #}
             {% with messages = get_flashed_messages() %}
             {% if messages %}

@@ -59,3 +59,17 @@ def index():
     monitores = Monitor.query.order_by('id')
     return render_template('index.html', monitores=monitores)
 
+@app.route('/reserve/<int:monitor_id>')
+@requires_auth
+def reserve(monitor_id):
+    monitor = Monitor.query.get_or_404(monitor_id)
+    if monitor.reserved_by:
+        flash('Monitor no disponible')
+        return redirect(url_for('index'))
+
+    monitor.reserved_by = session['username']
+    db.session.add(monitor)
+    db.session.commit()
+    flash('Monitor reservado!')
+    redirect(url_for('index'))
+

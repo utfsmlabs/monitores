@@ -1,13 +1,13 @@
-"""Initial Migration
+"""Initial version
 
-Revision ID: 1421e75626bd
+Revision ID: c022bd6f985
 Revises: None
-Create Date: 2013-08-30 01:08:15.281531
+Create Date: 2013-08-31 01:55:42.446060
 
 """
 
 # revision identifiers, used by Alembic.
-revision = '1421e75626bd'
+revision = 'c022bd6f985'
 down_revision = None
 
 from alembic import op
@@ -19,8 +19,8 @@ def upgrade():
     op.create_table('monitor',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('brand', sa.String(length=128), nullable=False),
-    sa.Column('model', sa.String(length=128), nullable=False),
     sa.Column('serial', sa.String(length=128), nullable=False),
+    sa.Column('reserved_by', sa.String(length=256), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     ### end Alembic commands ###

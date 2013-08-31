@@ -27,9 +27,9 @@ from monitores import db
 class Monitor(db.Model):
   id = db.Column(db.Integer, primary_key = True)
   brand = db.Column(db.String(128), nullable=False)
-  model = db.Column(db.String(128), nullable=False)
   serial = db.Column(db.String(128), nullable=False)
+  reserved_by = db.Column(db.String(256))
 
   def __repr__(self):
-    return '<Monitor: {}({})>'.format(self.model, self.serial)
+    return '<Monitor: {}({})>'.format(self.brand, self.serial)
 

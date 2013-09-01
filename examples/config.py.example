@@ -14,5 +14,8 @@ LDAP_SEARCH_ATTR = 'uid'
 #Random key
 SECRET_KEY = 'secret key'
 
+#Users allowed to look at reservations
+ADMINS = []
+
 LOG_FILE = 'monitores.log'
 

@@ -10,19 +10,25 @@ from models import Monitor
 #####################################################################
 
 
-def requires_auth(f):
+def requires_auth(require_admin=False):
     '''
     Decorator that checks wether the user is logged in and redirects
-    to the login form if he isn't
+    to the login form if he isn't.
+
+    :param require_admin: Whether it should block non-admin users
     '''
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        if 'username' in session:
-            return f(*args, **kwargs)
-        else:
+    #This function is called when a function is decorated with @requires_auth
+    def decorator(f):
+        @wraps(f)
+        #This function is called whenever the original would've been called.
+        def decorated(*args, **kwargs):
+            if 'username' in session:
+                if not require_admin or session['username'] in app.config['ADMINS']:
+                    return f(*args, **kwargs)
             flash('This page requires login')
             return redirect(url_for('login'))
-    return decorated
+        return decorated
+    return decorator
 
 @app.context_processor
 def user_processor():
@@ -32,10 +38,15 @@ def user_processor():
     u = None
     if 'username' in session:
         u = session['username']
-    return dict(username=u)
+    is_admin = u in app.config['ADMINS'] # I really need to start using flask-login
+    return dict(username=u, user_is_admin=is_admin)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    '''
+    Login Form
+    '''
+
     form = forms.loginForm(request.form)
     if request.method == 'POST' and form.validate():
         if ldap.search_and_auth(
@@ -54,15 +65,20 @@ def logout():
 #####################################################################
 
 @app.route('/')
-@requires_auth
+@requires_auth()
 def index():
     monitores = Monitor.query.order_by('id').filter(
             db.or_(Monitor.reserved_by == None, Monitor.reserved_by == session['username']))
     return render_template('index.html', monitores=monitores)
 
 @app.route('/reserve/<int:monitor_id>')
-@requires_auth
+@requires_auth()
 def reserve(monitor_id):
+    '''
+    Sets the reserved_by attribute to the logged user's username if it isn't
+    reserved by anyone else
+    '''
+    #The lockmode causes a SELECT FOR UPDATE
     monitor = Monitor.query.with_lockmode('update').get_or_404(monitor_id)
     if monitor.reserved_by:
         flash('Monitor no disponible')
@@ -73,4 +89,10 @@ def reserve(monitor_id):
     db.session.commit()
     flash('Monitor reservado!')
     return redirect(url_for('index'))
+
+@app.route('/reservations')
+@requires_auth(require_admin=True)
+def show_reservations():
+    monitores = Monitor.query.order_by('id')
+    return render_template('show_reservations.html', monitores=monitores)
 

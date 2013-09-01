@@ -1,0 +1,50 @@
+{#
+Copyright (C) 2012 Universidad Tecnica Federico Santa Maria
+
+This file is part of Monitores.
+
+Monitores is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Monitores is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Monitores.  If not, see <http://www.gnu.org/licenses/>.
+#}
+
+{% extends "layout.html" %}
+{% block pagetitle %}
+Reservaciones <a href="{{url_for('index')}}" class="btn btn-default btn-sm">Inicio</a>
+{% endblock %}
+{% block body %}
+<div class="table-responsive">
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>#</th><th>Marca</th><th>Serie</th><th>Reservado por</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for monitor in monitores %}
+    <tr>
+      <td>{{ monitor.id }}</td>
+      <td>{{ monitor.brand }}</td>
+      <td>{{ monitor.serial }}</td>
+      <td>
+        {% if monitor.reserved_by %}
+        {{ ' '.join(monitor.reserved_by.split('.')) }}
+        {% else %}
+        <span class="label label-default">Sin reserva</span>
+        {% endif %}
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

@@ -28,6 +28,7 @@ class default_config:
     LDAP_BASEDN = 'ou=inf,o=utfsm,c=cl'
     SECRET_KEY = 'development secret key'
     LOG_FILE = 'monitores.log'
+    ADMINS = ['javier.aravena']
 
 app = Flask(__name__.split('.')[0], instance_relative_config=True)
 app.config.from_object(default_config)
@@ -38,8 +39,6 @@ db = SQLAlchemy(app)
 
 ldap = ldapUsers.ldapConnection(app)
 
-from monitores import views, models
-
 if not app.debug:
     import logging
     from logging.handlers import RotatingFileHandler
@@ -47,4 +46,6 @@ if not app.debug:
             maxBytes = 1024 * 250, backupCount = 2)
     file_handler.setLevel(logging.WARNING)
     app.logger.addHandler(file_handler)
+
+from monitores import views, models
 

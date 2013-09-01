@@ -35,10 +35,17 @@ along with Monitores.  If not, see <http://www.gnu.org/licenses/>.
     <body>
         <div class="container">
             <header class="page-header">
-              <a href="{{ url_for('logout') }}" class="btn btn-danger pull-right">
+              <div class="btn-group pull-right">
+              {% if user_is_admin %}
+               <a href="{{ url_for('show_reservations') }}" class="btn btn-info">
+                <span class="glyphicon glyphicon-list-alt"></span> Mostrar reservaciones
+              </a>
+              {% endif %}
+              <a href="{{ url_for('logout') }}" class="btn btn-danger">
                 <span class="glyphicon glyphicon-log-out"></span> Salir
               </a>
-              <h1>Reservar</h1>
+              </div>
+              <h1>{% block pagetitle %}Reservar{% endblock %}</h1>
             </header>
 
             {# flashing support #}

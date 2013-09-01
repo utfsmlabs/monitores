@@ -56,13 +56,14 @@ def logout():
 @app.route('/')
 @requires_auth
 def index():
-    monitores = Monitor.query.order_by('id')
+    monitores = Monitor.query.order_by('id').filter(
+            db.or_(Monitor.reserved_by == None, Monitor.reserved_by == session['username']))
     return render_template('index.html', monitores=monitores)
 
 @app.route('/reserve/<int:monitor_id>')
 @requires_auth
 def reserve(monitor_id):
-    monitor = Monitor.query.get_or_404(monitor_id)
+    monitor = Monitor.query.with_lockmode('update').get_or_404(monitor_id)
     if monitor.reserved_by:
         flash('Monitor no disponible')
         return redirect(url_for('index'))
@@ -71,5 +72,5 @@ def reserve(monitor_id):
     db.session.add(monitor)
     db.session.commit()
     flash('Monitor reservado!')
-    redirect(url_for('index'))
+    return redirect(url_for('index'))
 

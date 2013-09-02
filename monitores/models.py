@@ -31,5 +31,5 @@ class Monitor(db.Model):
   reserved_by = db.Column(db.String(256))
 
   def __repr__(self):
-    return '<Monitor: {}({})>'.format(self.brand, self.serial)
+    return '<Monitor: %s(%s)>' % (self.brand, self.serial)
 

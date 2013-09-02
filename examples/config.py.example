@@ -1,6 +1,6 @@
 #SQLAlchemy connection string.
 #See http://docs.sqlalchemy.org/en/rel_0_7/core/engines.html
-SQLALCHEMY_DATABASE_URI = 'postgresql://user:pass@host'
+SQLALCHEMY_DATABASE_URI = 'postgresql://user:pass@host/database'
 
 #LDAP server
 LDAP_URI = 'ldap://example.com'
@@ -13,9 +13,10 @@ LDAP_SEARCH_ATTR = 'uid'
 
 #Random key
 SECRET_KEY = 'secret key'
-
+#
 #Users allowed to look at reservations
 ADMINS = []
+
 
 LOG_FILE = 'monitores.log'
 

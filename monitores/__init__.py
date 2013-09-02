@@ -21,7 +21,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 import ldapUsers
 
 class default_config:
-    DEBUG = True
+    DEBUG = False
     SQLALCHEMY_DATABASE_URI = 'sqlite:///asdf.db'
     LDAP_URI = 'ldap://localhost:3890'
     LDAP_SEARCH_ATTR = 'uid'

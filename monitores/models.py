@@ -29,6 +29,7 @@ class Monitor(db.Model):
   brand = db.Column(db.String(128), nullable=False)
   serial = db.Column(db.String(128), nullable=False)
   reserved_by = db.Column(db.String(256))
+  specs = db.Column(db.String(128))
 
   def __repr__(self):
     return '<Monitor: %s(%s)>' % (self.brand, self.serial)

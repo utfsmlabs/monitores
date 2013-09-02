@@ -26,7 +26,7 @@ Reservaciones <a href="{{url_for('index')}}" class="btn btn-default btn-sm">Inic
 <table class="table table-hover">
   <thead>
     <tr>
-      <th>#</th><th>Marca</th><th>Serie</th><th>Reservado por</th>
+      <th>#</th><th>Marca</th><th>Serie</th><th>Características</th><th>&nbsp;</th>
     </tr>
   </thead>
   <tbody>
@@ -35,6 +35,7 @@ Reservaciones <a href="{{url_for('index')}}" class="btn btn-default btn-sm">Inic
       <td>{{ monitor.id }}</td>
       <td>{{ monitor.brand }}</td>
       <td>{{ monitor.serial }}</td>
+      <td>{{ monitor.specs}}</td>
       <td>
         {% if monitor.reserved_by %}
         {{ ' '.join(monitor.reserved_by.split('.')) }}
